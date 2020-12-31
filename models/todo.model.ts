@@ -1,6 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
+
+interface TodoI {
+	title: string;
+	body: string;
+}
+
+type TodoListI = Array<TodoI>[] | any;
 
 const TodoSchema = new Schema(
 	{
@@ -18,4 +25,6 @@ const TodoSchema = new Schema(
 
 const TodoList = mongoose.model("todo_list", TodoSchema);
 
-module.exports = TodoList;
+export default TodoList;
+
+export type { TodoI, TodoListI };
