@@ -5,13 +5,15 @@ import TodoList, { TodoI, TodoListI } from "../../models/todo.model";
 class TodoController {
 	// [GET]
 	getTodoList = (req: Request, res: Response, next: NextFunction): any =>
-		TodoList.find({}).then<Response<any>>((todoList: TodoListI) => res.json(todoList));
+		TodoList.find({}).then<Response<any>>((todoList: TodoListI) =>
+			res.json(todoList)
+		);
 
 	getTodoDetail = (req: Request, res: Response, next: NextFunction): void => {
 		const { id } = req.query;
 		TodoList.findById(id)
 			.then((todoItem: TodoI | any): any => res.json(todoItem))
-			.catch((err: any) => res.json({ msg: "Have some error", err }));
+			.catch((err: any) => res.json({ msg: err.message }));
 	};
 
 	// [POST]
@@ -20,18 +22,20 @@ class TodoController {
 		todoItem
 			.save()
 			.then(() => res.json({ msg: "Create todo item succeeded" }))
-			.catch((err) => res.json({ msg: "Have some error", err }));
+			.catch((err) => res.json({ msg: err.message }));
 	};
 
 	// [PUT]
 	updateTodo = (req: Request, res: Response, next: NextFunction): any =>
 		TodoList.updateOne({ _id: req.query.id }, req.body)
 			.then(() => res.json({ msg: "Update succeeded" }))
-			.catch((err: any) => res.json({ msg: "Have some error", err }));
+			.catch((err: any) => res.json({ msg: err.message }));
 
 	// [DELETE]
 	deleteTodo = (req: Request, res: Response, next: NextFunction): any =>
-		TodoList.findByIdAndDelete(req.query.id).then(() => res.json({ msg: "Delete succeeded" }));
+		TodoList.findByIdAndDelete(req.query.id).then(() =>
+			res.json({ msg: "Delete succeeded" })
+		);
 }
 
 export default new TodoController();
