@@ -5,9 +5,7 @@ import TodoList, { TodoI, TodoListI } from "../../models/todo.model";
 class TodoController {
 	// [GET]
 	getTodoList = (req: Request, res: Response, next: NextFunction): any =>
-		TodoList.find({}).then<Response<any>>((todoList: TodoListI) =>
-			res.json(todoList)
-		);
+		TodoList.find({}).then<Response<any>>((todoList: TodoListI) => res.json(todoList));
 
 	getTodoDetail = (req: Request, res: Response, next: NextFunction): void => {
 		const { id } = req.query;
@@ -21,7 +19,7 @@ class TodoController {
 		const todoItem = new TodoList(req.body);
 		todoItem
 			.save()
-			.then(() => res.json({ msg: "Create todo item succeeded" }))
+			.then(() => res.json({ msg: "Create todo item succeeded", todoItem }))
 			.catch((err) => res.json({ msg: err.message }));
 	};
 
@@ -33,9 +31,7 @@ class TodoController {
 
 	// [DELETE]
 	deleteTodo = (req: Request, res: Response, next: NextFunction): any =>
-		TodoList.findByIdAndDelete(req.query.id).then(() =>
-			res.json({ msg: "Delete succeeded" })
-		);
+		TodoList.findByIdAndDelete(req.query.id).then(() => res.json({ msg: "Delete succeeded" }));
 }
 
 export default new TodoController();
